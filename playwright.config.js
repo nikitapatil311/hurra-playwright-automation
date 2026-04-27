@@ -10,12 +10,13 @@ module.exports = defineConfig({
     timeout: 40 * 1000,
   },
 
-  reporter: "html",
+  reporter: process.env.CI
+    ? [["list"], ["html", { outputFolder: "playwright-report", open: "never" }]]
+    : [["html", { open: "on-failure" }]],
 
   use: {
     browserName: "chromium",
-    headless: false,
-
-    trace: "on", // ✅ correct way
+    headless: !!process.env.CI,
+    trace: "on",
   },
 });

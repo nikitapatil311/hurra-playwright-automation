@@ -2,13 +2,13 @@ const { test, expect } = require("@playwright/test");
 
 test.use({ storageState: "auth/auth.json" });
 
-test("Smoke - Chat Page loads", async ({ page }) => {
+test("1. Smoke - Chat Page loads", async ({ page }) => {
   await page.goto("https://staging.hurra.ai/chat/");
 
   await expect(page.locator("[alt='Hurra.ai Logo']")).toBeVisible();
 });
 
-test("Smoke - Correct chat URL", async ({ page }) => {
+test("2. Smoke - Correct chat URL", async ({ page }) => {
   await page.goto("https://staging.hurra.ai/chat/");
   await expect(page).toHaveURL(/chat/);
 });
@@ -26,7 +26,7 @@ test("Smoke - Chat input is visible", async ({ page }) => {
   await expect(inputBox).toBeEnabled();
 });
 
-test("Smoke - Send button exists", async ({ page }) => {
+test("4.Smoke - Send button exists", async ({ page }) => {
   await page.goto("https://staging.hurra.ai/chat/");
 
   const sendButton = page
@@ -39,7 +39,7 @@ test("Smoke - Send button exists", async ({ page }) => {
   await expect(sendButton).toBeAttached();
 });
 
-test("Smoke - Send message and get response", async ({ page }) => {
+test("5. Smoke - Send message and get response", async ({ page }) => {
   await page.goto("https://staging.hurra.ai/chat/");
 
   const input = page.getByPlaceholder("Ask Hurra anything...");
