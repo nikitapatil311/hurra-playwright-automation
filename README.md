@@ -1,31 +1,35 @@
-# Hurra Chat Automation Framework (Playwright)
+# Playwright Automation - Hurra
 
-## Overview
-This project demonstrates a basic test automation framework for the Hurra chat application using Playwright.
+This repository contains a basic automation framework built using Playwright for validating critical application flows. The current implementation focuses on smoke testing and CI integration.
 
-## Features Implemented
-- UI Smoke Tests (Chat page load, UI validation, basic interaction)
-- API Testing (Chat session endpoint validation)
-- Authentication handling using storageState (login bypass)
-- GitHub repository setup for version control
+---
 
-## Tech Stack
+## 🚀 Overview
+
+- Automated smoke test suite using Playwright  
+- Covers core application flows (e.g., login, key validations)  
+- Integrated with GitHub Actions for CI execution  
+- Tests run automatically on every push and pull request  
+- CI pipeline is stable with passing test results  
+
+---
+
+## 🧪 Test Coverage
+
+The current suite includes **4–5 smoke test cases**, covering:
+
+- Login workflow  
+- Navigation and validations  
+- Basic response validation (e.g., chatbot / UI checks)  
+
+This serves as a baseline to ensure that critical functionalities are working as expected.
+
+---
+
+## ⚙️ Tech Stack
+
 - Playwright (JavaScript)
 - Node.js
+- GitHub Actions (CI/CD)
 
-## Project Structure
-tests/
-  smoke/
-  api/
-pages/
-auth/
 
-## How to Run
-npm install
-npx playwright test
-
-## Future Improvements
-- Page Object Model (POM) implementation
-- Expanded chat test scenarios
-- CI/CD integration using GitHub Actions
-- Improved reporting and test coverage
