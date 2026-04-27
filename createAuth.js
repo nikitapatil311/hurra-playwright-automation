@@ -5,7 +5,7 @@ const { chromium } = require("@playwright/test");
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  await page.goto("https://staging.hurra.ai/accounts/login/");
+  await page.goto("https://staging.hurra.ai/accounts/login/?qa-testing=1");
 
   console.log("Logging in...");
 
