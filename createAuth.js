@@ -12,8 +12,10 @@ const { chromium } = require("@playwright/test");
   await page.fill("#id_login", process.env.HURRA_EMAIL);
   await page.fill("#id_password", process.env.HURRA_PASSWORD);
 
-  await page.click('button:has-text("Login")');
-
+  await page
+    .locator('button[type="submit"], input[type="submit"]')
+    .first()
+    .click();
   await page.waitForURL("**/chat/", { timeout: 120000 });
 
   await context.storageState({ path: "auth/auth.json" });
