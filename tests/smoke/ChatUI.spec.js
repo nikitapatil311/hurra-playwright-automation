@@ -1,64 +1,50 @@
-const { test, expect } = require("@playwright/test");
+const { test } = require("@playwright/test");
+const { POManager } = require("../../pages/POManager");
 
 test.use({ storageState: "auth/auth.json" });
 
-test("1. Smoke - Chat Page loads", async ({ page }) => {
-  await page.goto("https://staging.hurra.ai/chat/");
+test.describe("Chat UI smoke", () => {
+  test("1. Chat Page loads with logo", async ({ page }) => {
+    const po = new POManager(page);
+    const chatPage = po.getChatPage();
 
-  await expect(page.locator("[alt='Hurra.ai Logo']")).toBeVisible();
-});
+    await chatPage.open();
+    await chatPage.expectLoaded();
+  });
 
-test("2. Smoke - Correct chat URL", async ({ page }) => {
-  await page.goto("https://staging.hurra.ai/chat/");
-  await expect(page).toHaveURL(/chat/);
-});
+  test("2. URL contains /chat/", async ({ page }) => {
+    const po = new POManager(page);
+    const chatPage = po.getChatPage();
 
-test("Smoke - Chat input is visible", async ({ page }) => {
-  await page.goto("https://staging.hurra.ai/chat/");
+    await chatPage.open();
+    await chatPage.expectUrl();
+  });
 
-  // wait for page to fully load chat UI
-  await page.waitForLoadState("networkidle");
+  test("3. Chat input is visible and enabled", async ({ page }) => {
+    const po = new POManager(page);
+    const chatPage = po.getChatPage();
 
-  // safest selector for textarea input
-  const inputBox = page.getByRole("textbox").first();
+    await chatPage.open();
+    await chatPage.expectInputVisible();
+  });
 
-  await expect(inputBox).toBeVisible();
-  await expect(inputBox).toBeEnabled();
-});
+  test("4. Send button exists", async ({ page }) => {
+    const po = new POManager(page);
+    const chatPage = po.getChatPage();
 
-test("4.Smoke - Send button exists", async ({ page }) => {
-  await page.goto("https://staging.hurra.ai/chat/");
+    await chatPage.open();
+    await chatPage.expectSendButtonAttached();
+  });
 
-  const sendButton = page
-    .locator("button")
-    .filter({
-      has: page.locator("svg"),
-    })
-    .last();
+  test("5. Send message and get response", async ({ page }) => {
+    const po = new POManager(page);
+    const chatPage = po.getChatPage();
 
-  await expect(sendButton).toBeAttached();
-});
+    await chatPage.open();
 
-test("5. Smoke - Send message and get response", async ({ page }) => {
-  await page.goto("https://staging.hurra.ai/chat/");
-
-  const input = page.getByPlaceholder("Ask Hurra anything...");
-
-  const message = `QA smoke ${Date.now()}`;
-
-  await input.fill(message);
-  await input.press("Enter");
-
-  // user message appears
-  await expect(page.getByText(message)).toBeVisible();
-
-  // wait for any assistant response bubble (more stable selector)
-  const botResponse = page
-    .locator("main div")
-    .filter({
-      hasText: /Hurra|Hello|ready|test/i,
-    })
-    .last();
-
-  await expect(botResponse).toBeVisible({ timeout: 30000 });
+    const message = `QA smoke ${Date.now()}`;
+    await chatPage.sendMessage(message);
+    await chatPage.expectMessageSent(message);
+    await chatPage.expectBotResponded();
+  });
 });

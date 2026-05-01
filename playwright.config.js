@@ -16,6 +16,7 @@ module.exports = defineConfig({
 
   use: {
     browserName: "chromium",
+    baseURL: "https://staging.hurra.ai",
     headless: !!process.env.CI,
     trace: "on",
   },
